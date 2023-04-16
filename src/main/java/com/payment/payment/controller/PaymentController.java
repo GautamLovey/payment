@@ -20,6 +20,7 @@ public class PaymentController {
     }
     @PostMapping("/register")
     String postTheCustomer(@RequestBody Customer customer){
+
         return paymentClient.enterTheCustomer(customer);
     }
 }
