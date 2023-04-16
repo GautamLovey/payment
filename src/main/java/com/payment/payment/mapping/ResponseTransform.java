@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseTransform {
-    AccBalResponse CentralToClient(AccBalResponseCentral accBalResponseCentral){
+   public AccBalResponse CentralToClient(AccBalResponseCentral accBalResponseCentral){
         AccBalResponse accBalResponse = new AccBalResponse();
+        if(accBalResponseCentral.getPropertyCentral()!=null){
+            accBalResponse.setProperty(accBalResponse.getProperty());
+        }
         if(accBalResponseCentral.getMeta()!=null){
             accBalResponse.setMeta(accBalResponseCentral.getMeta());
         }

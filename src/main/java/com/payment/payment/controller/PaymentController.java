@@ -1,7 +1,9 @@
 package com.payment.payment.controller;
 
 import com.payment.payment.feign.PaymentClient;
-import com.payment.payment.model.Customer;
+import com.payment.payment.mapping.ResponseTransform;
+import com.payment.payment.model.AccBalResponse;
+import com.payment.payment.model.AccBalResponseCentral;
 import com.payment.payment.repository.PaymentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +15,13 @@ public class PaymentController {
     PaymentClient paymentClient;
     @Autowired
     PaymentRepo paymentRepo;
-    @GetMapping("/details/{accountNUmber}")
-    Customer getCustomerDetails(@PathVariable String accountNUmber){
-        paymentRepo.saveAndFlush(paymentClient.getTheCustomer(accountNUmber));
-        return paymentClient.getTheCustomer(accountNUmber);
-    }
-    @PostMapping("/register")
-    String postTheCustomer(@RequestBody Customer customer){
+    @Autowired
+    ResponseTransform responseTransform;
 
-        return paymentClient.enterTheCustomer(customer);
+    @GetMapping("/{propertyCentral}")
+    AccBalResponse getTheResponse(@PathVariable String propertyCentral ){
+        AccBalResponseCentral accBalResponseCentral=paymentClient.getTheCustomer(propertyCentral);
+        return responseTransform.CentralToClient(accBalResponseCentral);
     }
+
 }
